@@ -1,0 +1,6 @@
+trainingInput:
+  scaleTier: BASIC_GPU
+  masterType: standard_gpu
+  workerType: standard_gpu
+  parameterServerType: large_model
+
