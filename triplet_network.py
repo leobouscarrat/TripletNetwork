@@ -33,9 +33,9 @@ import random
 import numpy
 from numpy import linalg as LA
 
-CIFAR10_PATH = r'C:\Users\leobo_000\Desktop\Developpement\TF_stage\cifar-10-python\cifar-10-batches-py'
+CIFAR10_PATH = r'cifar-10-python/cifar-10-batches-py'
 
-batch_size_train = 20
+batch_size_train = 100
 
 batch_number = 20000
 
@@ -52,13 +52,13 @@ def unpickle(file):
 
 # In[2]:
 
-dic1 = unpickle(CIFAR10_PATH + '\\data_batch_1')
-dic2 = unpickle(CIFAR10_PATH + '\\data_batch_2')
-dic3 = unpickle(CIFAR10_PATH + '\\data_batch_3')
-dic4 = unpickle(CIFAR10_PATH + '\\data_batch_4')
-dic5 = unpickle(CIFAR10_PATH + '\\data_batch_5')
+dic1 = unpickle(CIFAR10_PATH + '/data_batch_1')
+dic2 = unpickle(CIFAR10_PATH + '/data_batch_2')
+dic3 = unpickle(CIFAR10_PATH + '/data_batch_3')
+dic4 = unpickle(CIFAR10_PATH + '/data_batch_4')
+dic5 = unpickle(CIFAR10_PATH + '/data_batch_5')
 list_dic_train = [dic1, dic2, dic3, dic4, dic5]
-dictest = unpickle(CIFAR10_PATH + '\\test_batch')
+dictest = unpickle(CIFAR10_PATH + '/test_batch')
 
 
 # ## Etape 3 : Création d'un set global, et d'un set par classe
@@ -190,6 +190,8 @@ def euclidean_distance(vect1, vect2):
 
 # In[9]:
 
+print("Avant network")
+
 net_x = network(x_image)
 net_xm = network(xm_image)
 net_xp = network(xp_image)
@@ -241,6 +243,7 @@ accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
 train_accuracy = 0
 step_to_print = 0
+print("TEST")
 with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
     for i in range(batch_number):
@@ -249,7 +252,7 @@ with tf.Session() as sess:
         
         train_accuracy += accuracy.eval(feed_dict={x: batch[0], xp: batch[1], xm: batch[2], keep_prob: 1})
         step_to_print += batch_size_train
-        
+        print(i)
         if(step_to_print >= 10000):
             number_of_step = step_to_print/batch_size_train
             print('step %d, %d triplets trained, training accuracy %g' % (i, (i+1)*batch_size_train, train_accuracy/number_of_step))
