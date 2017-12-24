@@ -313,7 +313,7 @@ starter_learning_rate = 0.1
 learning_rate = tf.train.exponential_decay(learning_rate_start, global_step,
                                            640000, 0.8, staircase=True)
 
-train_step = tf.train.MomentumOptimizer(learning_rate; 0.9).minimize(loss_function, global_step=global_step)
+train_step = tf.train.MomentumOptimizer(learning_rate, 0.9).minimize(loss_function, global_step=global_step)
 
 correct_prediction = []
 
