@@ -33,11 +33,11 @@ import random
 import numpy
 from numpy import linalg as LA
 
-CIFAR10_PATH = r'C:\Users\leobo_000\Desktop\Developpement\TF_stage\cifar-10-python\cifar-10-batches-py'
+CIFAR10_PATH = r'cifar-10-python/cifar-10-batches-py'
 
-batch_size_train = 20
+batch_size_train = 100
 
-batch_number = 32000
+batch_number = 640000
 
 def unpickle(file):
     import pickle
@@ -52,13 +52,13 @@ def unpickle(file):
 
 # In[2]:
 
-dic1 = unpickle(CIFAR10_PATH + '\\data_batch_1')
-dic2 = unpickle(CIFAR10_PATH + '\\data_batch_2')
-dic3 = unpickle(CIFAR10_PATH + '\\data_batch_3')
-dic4 = unpickle(CIFAR10_PATH + '\\data_batch_4')
-dic5 = unpickle(CIFAR10_PATH + '\\data_batch_5')
+dic1 = unpickle(CIFAR10_PATH + '/data_batch_1')
+dic2 = unpickle(CIFAR10_PATH + '/data_batch_2')
+dic3 = unpickle(CIFAR10_PATH + '/data_batch_3')
+dic4 = unpickle(CIFAR10_PATH + '/data_batch_4')
+dic5 = unpickle(CIFAR10_PATH + '/data_batch_5')
 list_dic_train = [dic1, dic2, dic3, dic4, dic5]
-dictest = unpickle(CIFAR10_PATH + '\\test_batch')
+dictest = unpickle(CIFAR10_PATH + '/test_batch')
 
 
 # ## Etape 3 : Création d'un set global, et d'un set par classe
@@ -390,7 +390,7 @@ with tf.Session() as sess:
     for i in range(batch_number):
         
         batch = creation_triplet(dic_train, batch_size_train)
-        train_step_f.run(feed_dict={x: , y: , keep_prob: 0.5})
+        #train_step_f.run(feed_dict={x: , y: , keep_prob: 0.5})
         #print(correct_prediction.eval(feed_dict={x: batch[0], xp: batch[1], xm: batch[2], keep_prob: 1}))
         #print(len(soft_max_results))
         train_accuracy += accuracy.eval(feed_dict={x: batch[0], xp: batch[1], xm: batch[2], keep_prob: 1})
