@@ -342,7 +342,7 @@ with tf.Session() as sess:
         train_step.run(feed_dict={x: batch[0], xp: batch[1], xm: batch[2], keep_prob: 0.5})
         train_accuracy_2 += accuracy.eval(feed_dict={x: batch[0], xp: batch[1], xm: batch[2], keep_prob: 1})
         loss_f += loss_function.eval(feed_dict={x: batch[0], xp: batch[1], xm: batch[2], keep_prob: 1}) 
-        if number_of_batch >= 1000 :
+        if number_of_batch >= 10000 :
             train_accuracy = accuracy.eval(feed_dict={x: batch[0], xp: batch[1], xm: batch[2], keep_prob: 1})
             print('triplet %d, training accuracy %g' % ((i+1)*batch_size_train, train_accuracy_2/(number_of_batch/batch_size_train)))
             print('Loss : %g' % (loss_f/(number_of_batch/batch_size_train) ))
