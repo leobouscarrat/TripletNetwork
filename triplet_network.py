@@ -70,17 +70,25 @@ dictest = unpickle(CIFAR10_PATH + '/test_batch')
 gen_dic_train = ((i,[]) for i in range(0,10,1))
 dic_train = dict(gen_dic_train)
 
+dic_final = [[],[]]
+dic_final_test = [[],[]]
 i = 0
 
 while i < len(dic1[b'labels']):
     for d in list_dic_train:
         key = d[b'labels'][i]
         data = d[b'data'][i]
+        dic_final[0].append(intToList(key))
+        dic_final[1].append(data)
         if key in dic_train:
             dic_train[key].append(data)
         else:
             dic_train[key] = [data]
     i=i+1
+    
+for (image, classe) in zip(dictest[b'data'], dictest[b'labels']):
+    dic_final_test[0].append(intToList(classe))
+    dic_final_test[1].append(image)
 
 
 # ## PréProcessing des données
@@ -385,20 +393,14 @@ accuracy_f = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
 with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
-    train_accuracy = 0
-    number_of_batch = 0
+    train_accuracy_f = 0
+    number_of_batch_f = 0
     for i in range(batch_number):
         
-        batch = creation_triplet(dic_train, batch_size_train)
-        #train_step_f.run(feed_dict={x: , y: , keep_prob: 0.5})
-        #print(correct_prediction.eval(feed_dict={x: batch[0], xp: batch[1], xm: batch[2], keep_prob: 1}))
-        #print(len(soft_max_results))
-        train_accuracy += accuracy.eval(feed_dict={x: batch[0], xp: batch[1], xm: batch[2], keep_prob: 1})
+        batch_f = creation_triplet(dic_train, batch_size_train)
+        train_step_f.run(feed_dict={x: dic_final[1], y_: dic_final[0], keep_prob: 0.5})
         
-        number_of_batch += batch_size_train
-        
-        if number_of_batch >= 10000 :
-            print('triplet %d, training accuracy %g' % ((i+1)*batch_size_train, train_accuracy*batch_size_train/number_of_batch))
-            number_of_batch = 0
-            train_accuracy = 0
+    print(accuracy_f.eval(feed_dict={x: dic_final[1], y_: dic_final[0] , keep_prob: 1}))
+    
+    print('test accuracy %g' % accuracy.eval(feed_dict={ x: dic_final_test[1], y_: dic_final_test[0], keep_prob: 1.0}))
 
