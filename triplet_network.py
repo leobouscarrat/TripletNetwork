@@ -67,6 +67,11 @@ dictest = unpickle(CIFAR10_PATH + '/test_batch')
 
 # In[3]:
 
+def intToList(i):
+    listN = [0]*10
+    listN[i]=1
+    return listN
+
 gen_dic_train = ((i,[]) for i in range(0,10,1))
 dic_train = dict(gen_dic_train)
 
