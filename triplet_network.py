@@ -338,11 +338,13 @@ with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
     train_accuracy_f = 0
     number_of_batch_f = 0
-    while number_of_batch_f < range(size(dic_final[1]):
+    
+    while number_of_batch_f < size(dic_final[1]):
         
         batch_f = creation_triplet(dic_train, batch_size_train)
         train_step_f.run(feed_dict={x: dic_final[1][number_of_batch_f:number_of_batch_f+100], y_: dic_final[0][number_of_batch_f:number_of_batch_f+100], keep_prob: 0.5})
         number_of_batch_f += batch_size_train
+        
     print(accuracy_f.eval(feed_dict={x: dic_final[1], y_: dic_final[0] , keep_prob: 1}))
     
     print('test accuracy %g' % accuracy.eval(feed_dict={ x: dic_final_test[1], y_: dic_final_test[0], keep_prob: 1.0}))
