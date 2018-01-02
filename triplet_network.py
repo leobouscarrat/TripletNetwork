@@ -37,7 +37,7 @@ CIFAR10_PATH = r'cifar-10-python/cifar-10-batches-py'
 
 batch_size_train = 100
 
-batch_number = 640000
+batch_number = 64000
 
 def unpickle(file):
     import pickle
@@ -222,68 +222,6 @@ def network(x_image):
     
     return conv4_drop
 
-
-# In[9]:
-
-conv1 = tf.nn.relu(conv2d(x_image, V_conv1) + b_conv1)
-conv2 = tf.nn.relu(conv2d(conv1, V_conv2) + b_conv2)
-conv3 = tf.nn.relu(conv2d(conv2, V_conv3) + b_conv3)
-
-#Le Max Pooling 2x2
-
-pool = tf.nn.relu(max_pool_2x2(conv3))
-
-#Le dernier CNN
-
-conv4 = conv2d(pool, V_conv4) + b_conv4
-    
-#On rajoute le dropout pour éviter l'overfit (pas sûr de sa position en revanche)
-conv4_drop = tf.nn.dropout(conv4, keep_prob)
-
-net_x = conv4_drop
-
-
-# In[10]:
-
-conv1 = tf.nn.relu(conv2d(xm_image, V_conv1) + b_conv1)
-conv2 = tf.nn.relu(conv2d(conv1, V_conv2) + b_conv2)
-conv3 = tf.nn.relu(conv2d(conv2, V_conv3) + b_conv3)
-
-#Le Max Pooling 2x2
-
-pool = tf.nn.relu(max_pool_2x2(conv3))
-
-#Le dernier CNN
-
-conv4 = conv2d(pool, V_conv4) + b_conv4
-    
-#On rajoute le dropout pour éviter l'overfit (pas sûr de sa position en revanche)
-conv4_drop = tf.nn.dropout(conv4, keep_prob)
-
-net_xm = conv4_drop
-
-
-# In[11]:
-
-
-conv1 = tf.nn.relu(conv2d(xp_image, V_conv1) + b_conv1)
-conv2 = tf.nn.relu(conv2d(conv1, V_conv2) + b_conv2)
-conv3 = tf.nn.relu(conv2d(conv2, V_conv3) + b_conv3)
-
-#Le Max Pooling 2x2
-
-pool = tf.nn.relu(max_pool_2x2(conv3))
-
-#Le dernier CNN
-
-conv4 = conv2d(pool, V_conv4) + b_conv4
-    
-#On rajoute le dropout pour éviter l'overfit (pas sûr de sa position en revanche)
-conv4_drop = tf.nn.dropout(conv4, keep_prob)
-
-net_xp = conv4_drop
-
-
 # In[12]:
 
 def euclidean_distance(vect):
@@ -293,9 +231,9 @@ def euclidean_distance(vect):
 
 # In[13]:
 
-#net_x = network(x_image)
-#net_xm = network(xm_image)
-#net_xp = network(xp_image)
+net_x = network(x_image)
+net_xm = network(xm_image)
+net_xp = network(xp_image)
 
 soft_max_results = []
 intermediary = []
@@ -400,11 +338,11 @@ with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
     train_accuracy_f = 0
     number_of_batch_f = 0
-    for i in range(batch_number):
+    while number_of_batch_f < range(size(dic_final[1]):
         
         batch_f = creation_triplet(dic_train, batch_size_train)
-        train_step_f.run(feed_dict={x: dic_final[1], y_: dic_final[0], keep_prob: 0.5})
-        
+        train_step_f.run(feed_dict={x: dic_final[1][number_of_batch_f:number_of_batch_f+100], y_: dic_final[0][number_of_batch_f:number_of_batch_f+100], keep_prob: 0.5})
+        number_of_batch_f += batch_size_train
     print(accuracy_f.eval(feed_dict={x: dic_final[1], y_: dic_final[0] , keep_prob: 1}))
     
     print('test accuracy %g' % accuracy.eval(feed_dict={ x: dic_final_test[1], y_: dic_final_test[0], keep_prob: 1.0}))
